@@ -1,0 +1,10 @@
+{% set page_title = "Page Title" %}
+
+{% extends "layouts/default.njk" %}
+{% block header %}
+    {% import 'macros/navigation.njk' as nav %}
+    {{ nav.active('home') }}
+{% endblock %}
+
+{% block content %}
+{% endblock %}

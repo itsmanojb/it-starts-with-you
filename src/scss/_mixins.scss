@@ -1,0 +1,300 @@
+//  Standard Bootstrap 4.x Breakpoints
+
+@mixin bs-xl {
+    @media all and (max-width: 1199px) {
+        @content;
+    }
+}
+
+@mixin bs-lg {
+    @media all and (max-width: 991px) {
+        @content;
+    }
+}
+
+@mixin bs-md {
+    @media all and (max-width: 768px) {
+        @content;
+    }
+}
+
+@mixin bs-sm {
+    @media all and (max-width: 575px) {
+        @content;
+    }
+}
+
+//  Standard Breakpoints (fluid)
+
+@mixin xl {
+    @media all and (max-width: 1690px) {
+        @content;
+    }
+}
+
+@mixin lg {
+    @media all and (max-width: 1280px) {
+        @content;
+    }
+}
+
+@mixin md {
+    @media all and (max-width: 980px) {
+        @content;
+    }
+}
+
+@mixin sm {
+    @media all and (max-width: 736px) {
+        @content;
+    }
+}
+
+@mixin xs {
+    @media all and (max-width: 480px) {
+        @content;
+    }
+}
+
+// Create Theme colors
+// @include theme(theme-banana, yellow);
+@mixin theme($name, $color) {
+    $primary: $color;
+    $secondary: lighten(adjust-hue($color, 20), 10%);
+
+    .#{$name} {
+        .element {
+            color: $primary;
+        }
+
+        .other-element {
+            background: $secondary;
+        }
+    }
+}
+
+// Define vertical, horizontal, or both position
+// Usage
+// .foo {
+//     @include center(both);
+//   }
+//   .foo-parent {
+//     position: relative;
+//   }
+@mixin center($position) {
+    position: absolute;
+
+    @if $position=='vertical' {
+        top: 50%;
+        -webkit-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+    }
+
+    @else if $position=='horizontal' {
+        left: 50%;
+        -webkit-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
+        transform: translate(-50%);
+    }
+
+    @else if $position=='both' {
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+}
+
+// Clearfix mixin
+// Usage
+// .container-with-floated-children {
+//     @extend %clearfix;
+// }
+
+@mixin clearfix {
+
+    &:before,
+    &:after {
+        content: " ";
+        display: table;
+    }
+
+    &:after {
+        clear: both;
+    }
+}
+
+@function convert($value, $currentUnit, $convertUnit) {
+    @if $currentUnit==px {
+
+        @if $convertUnit==ems {
+            @return $value / 16+0em;
+        }
+
+        @else if $convertUnit==percent {
+            @return percentage($value / 16);
+        }
+
+    }
+
+    @else if $currentUnit==ems {
+
+        @if $convertUnit==px {
+            @return $value * 16+0px;
+        }
+
+        @else if $convertUnit==percent {
+            @return percentage($value);
+        }
+
+    }
+
+    @else if $currentUnit==percent {
+
+        @if $convertUnit==px {
+            @return $value * 16 / 100+0px;
+        }
+
+        @else if $convertUnit==ems {
+            @return $value / 100+0em;
+        }
+
+    }
+
+    @else if $currentUnit==pts {
+
+        @if $convertUnit==px {
+            @return $value * 1.3333+0px;
+        }
+
+        @else if $convertUnit==ems {
+            @return $value / 12+0em;
+        }
+
+        @else if $convertUnit==percent {
+            @return percentage($value / 12)
+        }
+    }
+}
+
+// Retina Image
+// Usage
+// div.logo {
+//     background: url("logo.png") no-repeat;
+//     @include retina("logo2x.png", 100px, 25px);
+// }
+@mixin retina($image, $width, $height) {
+
+    @media (min--moz-device-pixel-ratio: 1.3),
+        (-o-min-device-pixel-ratio: 2.6/2),
+        (-webkit-min-device-pixel-ratio: 1.3),
+        (min-device-pixel-ratio: 1.3),
+        (min-resolution: 1.3dppx) {
+        background-image: url($image);
+        background-size: $width $height;
+    }
+}
+
+// Gradient Generator
+// Usage: $start-color, $end-color, $orientation - vertical/horizontal/radial
+//  .foo {
+//     @include background-gradient(red, black, 'vertical');
+//   }
+@mixin background-gradient($start-color, $end-color, $orientation) {
+    background: $start-color;
+
+    @if $orientation=='vertical' {
+        background: -webkit-linear-gradient(top, $start-color, $end-color);
+        background: linear-gradient(to bottom, $start-color, $end-color);
+    }
+
+    @else if $orientation=='horizontal' {
+        background: -webkit-linear-gradient(left, $start-color, $end-color);
+        background: linear-gradient(to right, $start-color, $end-color);
+    }
+
+    @else {
+        background: -webkit-radial-gradient(center, ellipse cover, $start-color, $end-color);
+        background: radial-gradient(ellipse at center, $start-color, $end-color);
+    }
+}
+
+// Usage
+// div {
+//     @include responsive-ratio(16,9);
+// }
+@mixin responsive-ratio($x, $y, $pseudo: false) {
+    $padding: unquote(($y / $x) * 100 + '%');
+
+    @if $pseudo {
+        &:before {
+            @include pseudo($pos: relative);
+            width: 100%;
+            padding-top: $padding;
+        }
+    }
+
+    @else {
+        padding-top: $padding;
+    }
+}
+
+@mixin input-placeholder {
+    &.placeholder {
+        @content;
+    }
+
+    &:-moz-placeholder {
+        @content;
+    }
+
+    &::-moz-placeholder {
+        @content;
+    }
+
+    &:-ms-input-placeholder {
+        @content;
+    }
+
+    &::-webkit-input-placeholder {
+        @content;
+    }
+}
+
+@function z($name) {
+    @if index($z-indexes, $name) {
+        @return (length($z-indexes) - index($z-indexes, $name))+1;
+    }
+
+    @else {
+        @warn 'There is no item "#{$name}" in this list; choose one of: #{$z-indexes}';
+        @return null;
+    }
+}
+
+$z-indexes: ("outdated-browser",
+"modal",
+"side-drawer",
+"site-header",
+"page-wrapper",
+"site-footer"
+);
+
+@mixin truncate($truncation-boundary) {
+    max-width: $truncation-boundary;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@mixin nofocusoutline {
+    &:focus {
+        outline: none !important;
+    }
+}
+
+@mixin easeOut {
+    transition: ease-out all 0.3s;
+}

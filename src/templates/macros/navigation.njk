@@ -1,0 +1,20 @@
+{% macro active(activePage='home') %}
+  <nav class="navbar navbar-expand-xl navbar-light">
+    <a class="navbar-brand" href="./index.html">
+      Brand
+    </a>
+    <button class="navbar-toggler" data-toggle="modal" data-target="#sidedrawer" type="button" aria-controls="sidedrawer" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link {%if activePage == 'link1' %} active {% endif %}" href="#">Link 1</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {%if activePage == 'link 2' %} active {% endif %}" href="#">link 2</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+{% endmacro %}
