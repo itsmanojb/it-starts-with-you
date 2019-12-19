@@ -7,7 +7,7 @@ const sourcemaps = require('gulp-sourcemaps');
 const nunjucksRender = require('gulp-nunjucks-render');
 const data = require('gulp-data');
 const useref = require('gulp-useref');
-const uglify = require('gulp-uglify');
+const uglify = require('gulp-uglify-es').default;
 const gulpIf = require('gulp-if');
 const imagemin = require('gulp-imagemin');
 const cache = require('gulp-cache');
@@ -40,6 +40,14 @@ gulp.task('scss', function () {
         .pipe(sourcemaps.write())
         .pipe(gulp.dest('build/css'));
 });
+
+// Minify JS
+gulp.task('js', async function () {
+    return await gulp.src('build/**/*.js')
+        .pipe(uglify())
+        // .pipe(rename({ suffix: '.min' }))
+        .pipe(gulp.dest('dist'))
+})
 
 // Watch over html, css files change
 gulp.task('watch', function () {
